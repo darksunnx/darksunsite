@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Проект OSINT-специалистов Dark Sun по выявлению и обезвреживанию социально опасных элементов в сети">
+  <meta name="keywords" content="OSINT, доксинг, расследования, Dark Sun, безопасность, Telegram">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Dark Sun - OSINT проект">
+  <meta property="og:description" content="Проект OSINT-специалистов по выявлению и обезвреживанию социально опасных элементов в сети">
+  <meta property="og:image" content="logo.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Dark Sun - OSINT проект">
+  <meta property="twitter:description" content="Проект OSINT-специалистов по выявлению и обезвреживанию социально опасных элементов в сети">
+  <meta property="twitter:image" content="logo.jpg">
+  
+  <link rel="icon" type="image/jpg" href="logo.jpg">
+  <title>Dark Sun - OSINT проект</title>
+  
+  <style>
+    /* Основные стили */
+    :root {
+      --space-black: #0d0f13;
+      --dark-blue: #13151c;
+      --dark-purple: #1a1724;
+      --electric-blue: #4d8bf8;
+      --deep-purple: #7857c5;
+      --light-text: #e6eaf2;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, 
+                   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--space-black);
+      color: var(--light-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Стили для навигации */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background-color: rgba(13, 15, 19, 0.8);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--light-text);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: var(--light-text);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: var(--electric-blue);
+    }
+    
+    /* Стили для героического блока */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 600px;
+      z-index: 2;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+    
+    .hero-logo {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    
+    .hero-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Стили для разделов */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      opacity: 0.8;
+    }
+    
+    /* Стили для карточек */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+    
+    .card {
+      background-color: var(--dark-blue);
+      border-radius: 10px;
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .card-content {
+      opacity: 0.9;
+    }
+    
+    /* Стили для формы контактов */
+    .form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--dark-blue);
+      padding: 30px;
+      border-radius: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--space-black);
+      border: 1px solid rgba(77, 139, 248, 0.3);
+      border-radius: 5px;
+      color: var(--light-text);
+    }
+    
+    .form-textarea {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--space-black);
+      border: 1px solid rgba(77, 139, 248, 0.3);
+      border-radius: 5px;
+      color: var(--light-text);
+      resize: vertical;
+      min-height: 150px;
+    }
+    
+    .form-button {
+      background-color: var(--electric-blue);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .form-button:hover {
+      background-color: rgba(77, 139, 248, 0.9);
+    }
+    
+    /* Стили для футера */
+    .footer {
+      background-color: var(--dark-blue);
+      padding: 50px 0;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .footer-links a {
+      color: var(--light-text);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--electric-blue);
+    }
+    
+    /* Медиа-запросы для адаптивности */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-logo {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="#" class="logo">
+        <img src="logo.jpg" alt="Dark Sun" class="logo-img">
+        <span class="logo-text">DARK SUN</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#mission">О нас</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#channels">Каналы</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <section class="hero">
+    <div class="container">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            Проект <span style="color: var(--electric-blue);">DARK SUN</span><br>
+            OSINT и доксинг исследования
+          </h1>
+          <p class="hero-subtitle">
+            Мы специализируемся на выявлении социально опасных элементов в сети и сборе компрометирующей информации о них.
+          </p>
+          <div>
+            <a href="#contact" style="background-color: var(--electric-blue); color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; display: inline-block;">Связаться с нами</a>
+            <a href="#channels" style="margin-left: 15px; border: 1px solid var(--electric-blue); color: var(--electric-blue); padding: 12px 24px; border-radius: 5px; text-decoration: none; display: inline-block;">Наши каналы</a>
+          </div>
+        </div>
+        <div class="hero-logo">
+          <img src="logo.jpg" alt="Dark Sun Logo">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="mission" class="section">
+    <div class="container">
+      <h2 class="section-title">Наша <span style="color: var(--electric-blue);">миссия</span></h2>
+      <p class="section-subtitle">
+        Мы команда OSINT-специалистов, занимающаяся выявлением социально опасных элементов в интернете.
+        Наша цель - сделать интернет безопаснее путем обнаружения и документирования деятельности преступников.
+      </p>
+      
+      <div class="cards-container">
+        <div class="card">
+          <h3 class="card-title">Выявление</h3>
+          <p class="card-content">
+            Используя OSINT-методики и специальные инструменты, мы находим скрытые следы активности преступников в сети.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Документирование</h3>
+          <p class="card-content">
+            Тщательно собираем и структурируем информацию, создавая полное досье на объект исследования.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Анализ</h3>
+          <p class="card-content">
+            Проводим глубокий анализ данных для выявления связей, скрытых каналов коммуникации и закономерностей.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="services" class="section" style="background-color: var(--dark-blue);">
+    <div class="container">
+      <h2 class="section-title">Наши <span style="color: var(--electric-blue);">услуги</span></h2>
+      <p class="section-subtitle">
+        Мы предлагаем широкий спектр услуг по сбору и анализу информации, основанных на методиках OSINT и доксинга.
+      </p>
+      
+      <div class="cards-container">
+        <div class="card" style="background-color: var(--space-black);">
+          <h3 class="card-title">Доксинг</h3>
+          <p class="card-content">
+            Глубокий сбор информации о персоне, включая личные данные, социальные связи, аккаунты в сети и историю активности.
+          </p>
+          <ul style="margin-top: 15px; padding-left: 20px;">
+            <li>Поиск по всем доступным базам данных</li>
+            <li>Анализ социальных сетей</li>
+            <li>Идентификация скрытых аккаунтов</li>
+            <li>Установление личности анонимных пользователей</li>
+          </ul>
+        </div>
+        <div class="card" style="background-color: var(--space-black);">
+          <h3 class="card-title">OSINT-расследования</h3>
+          <p class="card-content">
+            Полномасштабные расследования на основе открытых источников информации и специальных методик.
+          </p>
+          <ul style="margin-top: 15px; padding-left: 20px;">
+            <li>Выявление скрытых связей</li>
+            <li>Карта активности в интернете</li>
+            <li>Установление геолокации</li>
+            <li>Восстановление удаленных данных</li>
+          </ul>
+        </div>
+        <div class="card" style="background-color: var(--space-black);">
+          <h3 class="card-title">Проверка личности</h3>
+          <p class="card-content">
+            Проверка реальности личности и соответствия предоставленных данных действительности.
+          </p>
+          <ul style="margin-top: 15px; padding-left: 20px;">
+            <li>Проверка подлинности профилей</li>
+            <li>Выявление ботов и фейков</li>
+            <li>Анализ цифрового следа</li>
+            <li>Проверка на наличие криминального прошлого</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="channels" class="section">
+    <div class="container">
+      <h2 class="section-title">Наши <span style="color: var(--electric-blue);">каналы</span></h2>
+      <p class="section-subtitle">
+        Присоединяйтесь к нашим Telegram-каналам чтобы быть в курсе последних новостей и исследований.
+      </p>
+      
+      <div class="cards-container">
+        <div class="card">
+          <h3 class="card-title">Dark Sun Link</h3>
+          <p class="card-content">
+            Основной канал проекта с результатами расследований и аналитическими материалами.
+          </p>
+          <a href="https://t.me/+AzGulV3VsXQ2NjY6" target="_blank" style="display: inline-block; margin-top: 15px; background-color: var(--electric-blue); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+            Подписаться
+          </a>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Dark Sun Chat</h3>
+          <p class="card-content">
+            Общий чат сообщества OSINT-специалистов для обсуждения методик и техник расследований.
+          </p>
+          <a href="https://t.me/+Vhvf5wHqDbNiNTky" target="_blank" style="display: inline-block; margin-top: 15px; background-color: var(--electric-blue); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+            Присоединиться
+          </a>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Dark Sun Price</h3>
+          <p class="card-content">
+            Канал с информацией о стоимости услуг, акциях и специальных предложениях.
+          </p>
+          <a href="https://t.me/+YgeisgJzsHwyNzUy" target="_blank" style="display: inline-block; margin-top: 15px; background-color: var(--electric-blue); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+            Узнать цены
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="contact" class="section" style="background-color: var(--dark-blue);">
+    <div class="container">
+      <h2 class="section-title">Связаться с <span style="color: var(--electric-blue);">нами</span></h2>
+      <p class="section-subtitle">
+        Заполните форму ниже, чтобы связаться с командой Dark Sun для получения помощи или сотрудничества.
+      </p>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+        <div style="flex: 2; min-width: 300px;">
+          <form class="form" id="contactForm">
+            <div class="form-group">
+              <label for="name" class="form-label">Имя</label>
+              <input type="text" id="name" class="form-input" placeholder="Ваше имя">
+            </div>
+            <div class="form-group">
+              <label for="telegram" class="form-label">Telegram</label>
+              <input type="text" id="telegram" class="form-input" placeholder="@username">
+            </div>
+            <div class="form-group">
+              <label for="subject" class="form-label">Тема</label>
+              <input type="text" id="subject" class="form-input" placeholder="Тема сообщения">
+            </div>
+            <div class="form-group">
+              <label for="message" class="form-label">Сообщение</label>
+              <textarea id="message" class="form-textarea" placeholder="Опишите вашу ситуацию или запрос..."></textarea>
+            </div>
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="privacy">
+                <span style="opacity: 0.8; font-size: 0.9rem;">Я согласен с политикой конфиденциальности</span>
+              </label>
+            </div>
+            <button type="submit" class="form-button">Отправить сообщение</button>
+          </form>
+        </div>
+        
+        <div style="flex: 1; min-width: 300px;">
+          <div class="card">
+            <h3 class="card-title">Контактная информация</h3>
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+              <div>
+                <h4 style="margin-bottom: 5px;">Владелец проекта</h4>
+                <a href="https://t.me/Divizion_of_Revichs" target="_blank" style="color: var(--electric-blue); text-decoration: none;">
+                  @Divizion_of_Revichs
+                </a>
+              </div>
+              <div>
+                <h4 style="margin-bottom: 5px;">Администратор</h4>
+                <a href="https://t.me/oaxue" target="_blank" style="color: var(--electric-blue); text-decoration: none;">
+                  @oaxue
+                </a>
+              </div>
+              <div>
+                <h4 style="margin-bottom: 5px;">Отзывы</h4>
+                <a href="https://t.me/otzivi_Dark_Night" target="_blank" style="color: var(--electric-blue); text-decoration: none;">
+                  @otzivi_Dark_Night
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="footer">
+    <div class="container">
+      <img src="logo.jpg" alt="Dark Sun" style="width: 60px; height: 60px; border-radius: 50%;">
+      <h3 style="margin-top: 20px; font-size: 1.5rem;">DARK SUN</h3>
+      <p style="margin-top: 10px; opacity: 0.8;">
+        OSINT-проект по выявлению социально опасных элементов в сети
+      </p>
+      <div class="footer-links">
+        <a href="#mission">О нас</a>
+        <a href="#services">Услуги</a>
+        <a href="#channels">Каналы</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <p style="margin-top: 30px; opacity: 0.6; font-size: 0.9rem;">
+        &copy; 2025 Dark Sun Project. Все права защищены.
+      </p>
+    </div>
+  </footer>
+  
+  <script>
+    // Простой скрипт для обработки формы
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const telegram = document.getElementById('telegram').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      const privacy = document.getElementById('privacy').checked;
+      
+      if (!name || !telegram || !subject || !message || !privacy) {
+        alert('Пожалуйста, заполните все поля формы и примите политику конфиденциальности');
+        return;
+      }
+      
+      // Имитация отправки данных для статического сайта
+      const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+      submissions.push({
+        name,
+        telegram,
+        subject,
+        message,
+        date: new Date().toISOString()
+      });
+      
+      localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+      
+      // Сброс формы и уведомление пользователя
+      this.reset();
+      alert('Сообщение успешно отправлено! Мы свяжемся с вами через Telegram.');
+    });
+    
+    // Фиксированная навигация при прокрутке
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.background = 'rgba(13, 15, 19, 0.95)';
+        navbar.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+      } else {
+        navbar.style.background = 'rgba(13, 15, 19, 0.8)';
+        navbar.style.boxShadow = 'none';
+      }
+    });
+    
+    // Плавная прокрутка для навигационных ссылок
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
